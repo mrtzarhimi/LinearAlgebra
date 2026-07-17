@@ -55,7 +55,7 @@
 \centering
 
 به نام خدا\\
-\includegraphics[width=0.3\textwidth]{image.png}\\
+\includegraphics[width=0.3\textwidth]{imageIUST.png}\\
 \vspace{0.4cm}
 پروژه درس جبر خطی – ترم 4042\\
 \vspace{1.5cm}
@@ -380,9 +380,10 @@ def split_2000_225(df, bow_matrix):
 
     \paragraph{۲. ساخت ماتریس کیسه کلمات (\texttt{CountVectorizer}):}
     \begin{itemize}
-        \item \textbf{محدودسازی ستون‌ها به واژگان سفارشی}: با پاس دادن \lr{\texttt{vocabulary=vocabulary\_list}} به کلاس \lr{\texttt{CountVectorizer}}، مدل را موظف می‌کنیم که ماتریس را صرفاً بر اساس کلمات این لیست بسازد. هر کلمه‌ای در اسناد که در این لیست نباشد، نادیده گرفته خواهد شد.
-        \item \textbf{تبدیل به آرایه متراکم (\texttt{toarray()})}: خروجی متد \lr{\texttt{fit\_transform}} یک ماتریس خلوت است که برای انجام راحت‌تر محاسبات جبر خطی بعدی (مانند تجزیه مقادیر منفرد) با متد \lr{\texttt{toarray()}} به یک آرایه دو بعدی استاندارد و متراکم \lr{NumPy} تبدیل می‌شود. ابعاد این ماتریس برابر با $2225 \times M$ خواهد بود که در آن $M$ تعداد کلمات واژه‌نامه است.
-    \end{itemize}
+    \item \textbf{محدودسازی ستون‌ها به واژگان سفارشی}: با پاس دادن پارامتر \lr{\texttt{vocabulary}} (برابر با \lr{\texttt{vocabulary\_list}}) به کلاس \lr{\texttt{CountVectorizer}}، مدل را موظف می‌کنیم که ماتریس را صرفاً بر اساس کلمات این لیست بسازد. هر کلمه‌ای در اسناد که در این لیست نباشد، نادیده گرفته خواهد شد.
+        
+    \item \textbf{تبدیل به آرایه متراکم (\texttt{toarray()})}: خروجی متد \lr{\texttt{fit\_}} \lr{\texttt{transform}} یک ماتریس خلوت است که برای انجام راحت‌تر محاسبات جبر خطی بعدی (مانند تجزیه مقادیر منفرد) با متد \lr{\texttt{toarray()}} به یک آرایه دو بعدی استاندارد و متراکم \lr{NumPy} تبدیل می‌شود. ابعاد این ماتریس برابر با $2225 \times M$ خواهد بود که در آن $M$ تعداد کلمات واژه‌نامه است.
+\end{itemize}
 
     \paragraph{۳. تقسیم‌بندی داده‌ها به مجموعه‌های آموزش و آزمون:}\hspace{-10pt}
     تابع \lr{\texttt{split\_2000\_225}} داده‌های ورودی را به دو بخش افقی تقسیم می‌کند:
@@ -451,10 +452,12 @@ def split_2000_225_shuffle(df, bow_matrix):
 
     \paragraph{۱. تابع تقسیم ترتیبی و ساده (\texttt{split\_2000\_225}):}
     \begin{itemize}
-        \item \textbf{عملکرد:} این تابع با استفاده از برش‌زدن ساده ایندکس‌ها (\lr{Slicing}) با دستور \lr{\texttt{.iloc}}، دقیقا ۲۰۰۰ سطر نخست را به عنوان مجموعه آموزش و ۲۲۵ سطر انتهایی را به عنوان مجموعه آزمون جدا می‌کند. 
-        \item \textbf{ریست کردن ایندکس:} با متد \lr{\texttt{reset\_index(drop=True)}} ایندکس‌های دیتافریم‌های جدید دوباره از صفر مقداردهی می‌شوند تا در تحلیل‌های بعدی خطایی رخ ندهد.
-        \item \textbf{اشکال ساختاری (اریب بودن داده‌ها):} از آن‌جا که داده‌های اولیه بر اساس برچسب‌ها مرتب شده‌اند، ۲۲۵ سطر آخر همگی متعلق به کلاس شماره ۴ (\lr{Business}) خواهند بود. این یعنی مدل هیچ داده‌ی ارزیابی از دسته‌های دیگر (مانند سیاست یا ورزش) در این نوع تقسیم‌بندی نخواهد داشت که منجر به ارزیابی غیرمنصفانه می‌شود.
-    \end{itemize}
+    \item \textbf{عملکرد:} این تابع با استفاده از برش‌زدن ساده ایندکس‌ها (\lr{Slicing}) با دستور \lr{\texttt{.iloc}}، دقیقاً ۲۰۰۰ سطر نخست را به عنوان مجموعه آموزش و ۲۲۵ سطر انتهایی را به عنوان مجموعه آزمون جدا می‌کند. 
+    
+    \item \textbf{ریست کردن ایندکس:} با متد \lr{\texttt{reset\_index}} (و تنظیم پارامتر \lr{\texttt{drop=True}}) ایندکس‌های دیتافریم‌های جدید دوباره از صفر مقداردهی می‌شوند تا در تحلیل‌های بعدی خطایی رخ ندهد.
+    
+    \item \textbf{اشکال ساختاری (اریب بودن داده‌ها):} از آن‌جا که داده‌های اولیه بر اساس برچسب‌ها مرتب شده‌اند، ۲۲۵ سطر آخر همگی متعلق به کلاس شماره ۴ (\lr{Business}) خواهند بود. این یعنی مدل هیچ داده‌ی ارزیابی از دسته‌های دیگر (مانند سیاست یا ورزش) در این نوع تقسیم‌بندی نخواهد داشت که منجر به ارزیابی غیرمنصفانه می‌شود.
+\end{itemize}
 
     \paragraph{۲. تابع تقسیم تصادفی مجهز به برهم‌زدن (\texttt{split\_2000\_225\_shuffle}):}
     \begin{itemize}
@@ -643,4 +646,479 @@ def q12_truncated_svd(bow_scaled, U, S, Vt, fname, fname2, variance_threshold=0.
         \item \textbf{نتیجه‌گیری عملی از کاهش بعد:}
         انتخاب $k=42$ نشان می‌دهد که با حذف ۱۱ بعد کم‌اهمیت‌تر (که حدود ۲۰٪ از ابعاد کل واژه‌نامه است)، همچنان بیش از ۹۰٪ از واریانس و اطلاعات ساختاری داده‌ها حفظ می‌شود. این فشرده‌سازی هوشمندانه علاوه بر کاهش حجم محاسبات، با حذف نویزهای موجود در فرکانس‌های ضعیف کلمات، دقت مدل‌های دسته‌بندی بعدی را بهبود می‌بخشد.
     \end{itemize}    
+
+\noindent\textbf{سوال ۱۳ --- پیاده‌سازی الگوریتم تجزیه مقادیر منفرد تصادفی‌شده (\lr{Randomized SVD})}
+    
+   \noindent در این گام، الگوریتم ریاضی \lr{Randomized SVD} به صورت دستی و بدون استفاده از کتابخانه‌های آماده پیاده‌سازی شده است. این روش برای ماتریس‌های بسیار بزرگ، سرعت محاسبات را به شدت افزایش می‌دهد. کد مربوط به این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q13 — Randomized SVD Implementation
+# ============================================================
+def q13_randomized_svd(A, k, p=5, random_state=42):
+    np.random.seed(random_state)
+        
+    m, n = A.shape
+    r = k + p
+        
+    Omega = np.random.normal(size=(n, r))
+    
+    Y = A @ Omega
+    Q, _ = np.linalg.qr(Y)    
+    B = Q.T @ A
+    
+    U_tilde, S, Vt = np.linalg.svd(B, full_matrices=False)
+    
+    U = Q @ U_tilde
+    
+    U_k = U[:, :k]
+    S_k = S[:k]
+    Vt_k = Vt[:k, :]
+    
+    return U_k, S_k, Vt_k
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح ریاضی و گام‌های عملکرد الگوریتم:}
+
+    الگوریتم \lr{Randomized SVD} بر این ایده استوار است که فضای ستونی یک ماتریس بزرگ را می‌توان با دقت بالا به یک زیرفضای تصادفی با ابعاد بسیار کوچک‌تر تصویر کرد. گام‌های ریاضی کد فوق به شرح زیر است:
+
+    \paragraph{۱. بیش‌نمونه‌گیری (\lr{Oversampling}) و تولید ماتریس تصادفی:}
+    \begin{itemize}
+        \item با تعریف پارامتر بیش‌نمونه‌گیری $p=5$، بعد فضای تصادفی برابر با $r = k + p$ در نظر گرفته می‌شود. این کار تضمین می‌کند که بردارهای منفرد مرزی (نزدیک به رتبه $k$) با دقت بسیار بالایی بازیابی شوند و اطلاعات مهم از دست نروند.
+        \item ماتریس تصادفی $\Omega$ با ابعاد $n \times r$ با توزیع نرمال استاندارد (گاوسی) ساخته می‌شود:
+        $$\Omega \sim \mathcal{N}(0, 1)$$
+    \end{itemize}
+
+    \paragraph{۲. تصویر کردن و متعامدسازی (یافتن پایه‌ی زیرفضا):}
+    \begin{itemize}
+        \item ضرب ماتریسی $Y = A \cdot \Omega$ ستون‌های ماتریس اصلی را به زیرفضای تصادفیِ رتبه-پایین تصویر می‌کند (ابعاد $Y$ برابر $m \times r$ می‌شود).
+        \item با اعمال تجزیه \lr{QR} بر روی $Y$ با دستور \lr{\texttt{np.linalg.qr(Y)}}، یک پایه متعامد یکا (\lr{Orthonormal Basis}) به نام $Q$ برای فضای ستونی $Y$ استخراج می‌شود به طوری که:
+        $$Y = Q \cdot R \quad \Rightarrow \quad Q^T Q = I$$
+    \end{itemize}
+
+    \paragraph{۳. انتقال به فضای کوچک‌تر و اعمال \lr{SVD} استاندارد:}
+    \begin{itemize}
+        \item ماتریس اصلی $A$ روی پایه متعامد جدید تصویر می‌شود تا ماتریس بسیار کوچک‌تر $B$ با ابعاد $r \times n$ ایجاد گردد:
+        $$B = Q^T A$$
+        \item از آن‌جا که ابعاد $B$ بسیار کوچک است، اعمال \lr{SVD} روی آن به شدت سریع خواهد بود. خروجی این تجزیه به شکل زیر است:
+        $$B = \tilde{U} \Sigma V^T$$
+    \end{itemize}
+
+    \paragraph{۴. بازسازی بردار‌های اصلی و کوته‌سازی نهایی:}
+    \begin{itemize}
+        \item برای بازگرداندن بردار‌های چپ منفرد به فضای اصلی، ماتریس $Q$ در $\tilde{U}$ ضرب می‌شود:
+        $$U = Q \cdot \tilde{U}$$
+        \item در نهایت، برای انطباق دقیق با رتبه هدف ($k$)، ماتریس‌های $U$، $S$ و $V^T$ تا ستون و ردیف $k$اُم برش داده شده و خروجی نهایی تولید می‌شود.
+    \end{itemize}
+
+\noindent\textbf{سوال ۱۴ --- مقایسه تجربی عملکرد روش‌های \lr{Truncated SVD} و \lr{Randomized SVD}}
+    
+ \noindent   در این گام، تابعی طراحی شده است تا هر دو روش کاهش بعد متعارف (\lr{Truncated SVD}) و تصادفی‌سازی‌شده (\lr{Randomized SVD}) را در ابعاد بهینه ($k = 42$) از منظر سرعت پردازش و میزان خطای بازسازی ماتریس با هم مقایسه کند. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q14 — SVD Comparison (Truncated vs. Randomized SVD)
+# ============================================================
+def q14_compare_svd(X_scaled, k_optimal, error_truncated, time_truncated):
+    print(f"=== SVD Comparison (k = {k_optimal}) ===")
+    
+    start_time = time.time()
+    U_r, S_r, Vt_r = q13_randomized_svd(X_scaled, k=k_optimal)
+    rand_time = time.time() - start_time
+    
+    X_recon_rand = U_r @ np.diag(S_r) @ Vt_r
+    
+    error_randomized = np.linalg.norm(X_scaled - X_recon_rand, 'fro')
+    
+    print(f"Truncated SVD Error  : {error_truncated:.4f}")
+    print(f"Randomized SVD Error : {error_randomized:.4f}")
+    print(f"Difference in Error  : {abs(error_randomized - error_truncated):.4f}")
+    print(f"Randomized SVD Time  : {rand_time:.4f} seconds")
+    print(f"Truncated SVD Time   : {time_truncated:.4f} seconds")
+    
+    return error_randomized
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و منطق محاسباتی:}
+
+    \paragraph{۱. سنجش زمان اجرای روش تصادفی:}\hspace{-10pt}
+    با استفاده از کتابخانه‌ی \lr{\texttt{time}}، زمان دقیق درست قبل و بعد از فراخوانی الگوریتم \lr{\texttt{q13\_randomized\_svd}} ثبت شده و تفاضل آن‌ها به عنوان زمان اختصاصی روش تصادفی در متغیر \lr{\texttt{rand\_time}} ذخیره می‌شود.
+
+    \paragraph{۲. بازسازی ماتریس و محاسبه خطای فروبنیوس (\lr{Frobenius Norm}):}\hspace{-10pt}
+    برای سنجش میزان وفاداری تقریب رتبه‌‌پایین تصادفی به ساختار هندسی اولیه، ماتریس تقریب‌زده شده از فرمول زیر بازسازی می‌شود:
+    $$X_{\text{recon\_rand}} = U_r \cdot \text{diag}(S_r) \cdot V_r^T$$
+    سپس تفاضل این ماتریس بازسازی‌شده با ماتریس استاندارد شده‌ی اولیه سنجیده شده و مقدار خطای بازسازی بر اساس نرم فروبنیوس با دستور \lr{\texttt{np.linalg.norm(..., 'fro')}} محاسبه می‌گردد.
+
+    \paragraph{۳. تحلیل تجربی نتایج خروجی در مفسر پایتون:}\hspace{-10pt}
+    پس از اجرای مقایسه روی داده‌های استاندارد شده، خروجی نهایی مفسر به صورت زیر ثبت می‌شود:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Output14.png}
+        \caption{نتایج خروجی مقایسه‌ی سرعت و خطای دو روش SVD در ترمینال}
+        \label{fig:q14_compare_output}
+    \end{figure}
+
+    \begin{itemize}
+        \item \textbf{تحلیل خطای بازسازی:}
+        روش \lr{Truncated SVD} به عنوان دقیق‌ترین تقریب ریاضی با خطای $98.5440$ عمل کرده است. در مقابل، روش \lr{Randomized SVD} خطای $115.1949$ را ثبت کرده است. اختلاف خطای ناچیز این دو روش ($16.6509$) نشان می‌دهد الگوریتم تصادفی با وجود سرعت بالا، دقت هندسی داده‌ها را به خوبی حفظ کرده است.
+        
+        \item \textbf{تحلیل سرعت محاسبات:}
+        روش دقیق زمان $0.1808$ ثانیه را به خود اختصاص داده است؛ در حالی که روش تصادفی کل فرآیند را در زمان خیره‌کننده‌ی $0.0119$ ثانیه به پایان رسانده است. این یعنی شتاب‌دهی تجربی حدود \textbf{۱۵ برابر سریع‌تر} رخ داده است که مزیت رقابتی روش تصادفی را برای داده‌های بزرگ اثبات می‌کند.
+    \end{itemize}
+    
+\noindent\textbf{سوال ۱۵ --- تحلیل کلمات کلیدی در ابعاد پنهان ( تفسیر هندسی مؤلفه‌های SVD )}
+    
+ \noindent   در این گام، هدف کشف مفهوم معنایی پشت هر یک از ابعاد یا مؤلفه‌های پنهان (\lr{Latent Components}) است. با استخراج کلماتی که بیشترین تأثیر (قدرمطلق وزن) را در یک مؤلفه دارند، می‌توان موضوع محوری آن بعد را تفسیر کرد. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q15 — Extract top 5 words per latent component (V^T analysis)
+# ============================================================
+def q15_top_words_per_component(Vtk, vocabulary_list):
+    k = Vtk.shape[0]
+
+    for comp_idx in range(k):
+        comp = Vtk[comp_idx]
+        top5_idx = np.argsort(np.abs(comp))[::-1][:5]
+        top5 = [(vocabulary_list[i], round(comp[i], 3)) for i in top5_idx]
+        print(f"Component {comp_idx + 1}: {top5}")
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و منطق ریاضی:}
+
+    \paragraph{۱. تحلیل سطر‌های ماتریس $V^T$:}\hspace{-10pt}
+    ماتریس $V^T$ با ابعاد $k \times N$، کلمات واژه‌نامه را در فضای پنهان توصیف می‌کند. هر سطر از این ماتریس (نمایه \lr{\texttt{comp\_idx}})، یک مؤلفه پنهان را نشان می‌دهد که در آن به هر یک از ۵۳ کلمه‌ی واژه‌نامه، یک وزن مثبت یا منفی اختصاص یافته است.
+
+    \paragraph{۲. مرتب‌سازی بر اساس قدرمطلق تاثیرگذاری (\texttt{np.abs}):}\hspace{-10pt}
+    برخی کلمات کلیدی ممکن است تاثیر منفی شدید (کاهنده) یا تاثیر مثبت شدید (افزاینده) روی یک مفهوم داشته باشند. به همین دلیل، با دستور \lr{\texttt{np.abs(comp)}} اندازه اثر بدون در نظر گرفتن علامت استخراج می‌شود. سپس متد \lr{\texttt{np.argsort}} اندیس‌ها را به صورت صعودی مرتب کرده و با برش \lr{\texttt{[::-1][:5]}}، اندیس ۵ کلمه‌ای که بالاترین سهم را دارند به صورت نزولی استخراج می‌کند.
+
+    \subsection*{تحلیل تجربی نتایج خروجی در مفسر پایتون:}
+    پس از اجرای الگوریتم بر روی مؤلفه‌های به دست آمده، خروجی مفسر برای ۴۲ مؤلفه به شکل زیر ثبت می‌شود:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=1.0\textwidth]{Output15.png}
+        \caption{پنج کلمه‌ی برتر با بیشترین وزن برای مؤلفه‌های پنهان SVD در خروجی مفسر}
+        \label{fig:q15_components_output}
+    \end{figure}
+
+    با بررسی شکل \ref{fig:q15_components_output}، می‌توان مفاهیم پنهان استخراج‌شده توسط مدل را به وضوح تفسیر و برچسب‌گذاری کرد:
+    \begin{itemize}
+    \item \textbf{مؤلفه اول (سیاست و تکنولوژی):} کلماتی مانند \lr{election} (وزن $-0.341$)، \lr{labour} (وزن $-0.327$) و \lr{minister} (وزن $-0.256$) نشان می‌دهند که محور اول به شدت بر روی مفاهیم سیاسی بریتانیا متمرکز است. در سمت مقابل، واژه \lr{technology} با وزن مثبت قرار دارد که تضاد معنایی بین اخبار محض سیاسی و اخبار نوآوری را در این محور نشان می‌دهد.
+        
+    \item \textbf{مؤلفه دوم (فن‌آوری دیجیتال):} حضور کلمات \lr{digital} (وزن $-0.23$)، \lr{technology} (وزن $-0.227$) و \lr{government} (وزن $-0.225$) نشان‌دهنده‌ی موضوعاتی پیرامون سیاست‌گذاری‌های دولتی در حوزه فناوری دیجیتال است.
+        
+    \item \textbf{مؤلفه چهارم (سینما، موسیقی و هنر):} حضور واژگان \lr{film} (وزن $0.339$)، \lr{director} (وزن $0.333$)، \lr{artist} (وزن $0.32$) و \lr{music} (وزن $0.318$) ثابت می‌کند که این بعد پنهان به طور کامل و اختصاصی به حوزه سرگرمی، رسانه و هنر اختصاص یافته است.
+        
+    \item \textbf{مؤلفه چهل و یکم (بازی‌های آنلاین و سرگرمی):} حضور کلمات \lr{game} (وزن $0.382$)، \lr{online} (وزن $0.299$) و \lr{play} (وزن $-0.254$) بعد پنهان جدیدی از صنعت بازی و سرگرمی‌های آنلاین را آشکار می‌سازد.
+\end{itemize}
+
+\noindent\textbf{سوال ۱۶ --- ارزیابی شباهت معنایی واژگان در فضای کاهش‌یافته (تحلیل جفت‌کلمات)}
+    
+   \noindent در این مرحله، هدف سنجش ارتباط معنایی بین جفت‌کلمات مختلف در فضای پنهان کاهش‌یافته ($k$-بعدی) است. برای این منظور، نمایش برداری هر کلمه از ستون‌های ماتریس $V_k^T$ (یا سطر‌های ماتریس $V_k$) استخراج شده و شباهت آن‌ها با دو معیار فاصله‌ی اقلیدسی و شباهت کسینوسی محاسبه می‌شود. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q16 — Word Pair Similarity (Cosine & Euclidean)
+# ============================================================
+def cosine_sim(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def euclidean_dist(a, b):
+    return np.linalg.norm(a - b)
+
+def q16_word_pair_similarity(Vtk, vocabulary_list):
+    word2idx = {w: i for i, w in enumerate(vocabulary_list)}
+    word_vecs = Vtk.T
+
+    pairs = [
+        ('mobile', 'technology'), ('director', 'film'), ('win', 'won'),
+        ('play', 'game'), ('play', 'law'), ('government', 'music')
+    ]
+
+    print(f"{'Pair':<28}{'Cosine Sim':>12}{'Euclidean Dist':>18}")
+    for w1, w2 in pairs:
+        v1 = word_vecs[word2idx[w1]]
+        v2 = word_vecs[word2idx[w2]]
+        cs = cosine_sim(v1, v2)
+        ed = euclidean_dist(v1, v2)
+        print(f"({w1}, {w2}){'':<{max(1,28-len(w1)-len(w2)-4)}}{cs:>12.4f}{ed:>18.4f}")
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و مبانی ریاضی:}
+
+    \paragraph{۱. فرمول‌بندی معیارهای تشابه و فاصله:}
+    \begin{itemize}
+        \item \textbf{شباهت کسینوسی (\lr{Cosine Similarity}):} زاویه بین دو بردار واژه را در فضای پنهان مقایسه می‌کند. این معیار مستقل از طول بردارها بوده و صرفاً هم‌جهت بودن آن‌ها را در بازه $[-1, 1]$ می‌سنجد:
+        $$\text{Cosine Similarity}(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{\|\vec{a}\| \|\vec{b}\|}$$
+        \item \textbf{فاصله‌ی اقلیدسی (\lr{Euclidean Distance}):} هندسه و فاصله مستقیم بین نقاط انتهایی دو بردار را در فضای ۴۲ بعدی محاسبه می‌کند:
+        $$d(\vec{a}, \vec{b}) = \sqrt{\sum_{i=1}^{k} (a_i - b_i)^2}$$
+    \end{itemize}
+
+    \paragraph{۲. نگاشت ستون‌های $V_k^T$ به کلمات (\texttt{word\_vecs}):}\hspace{-10pt}
+    ماتریس $V_k^T$ دارای ابعاد $k \times N$ است. با گرفتن ترانهاده‌ی آن به صورت \lr{\texttt{Vtk.T}}، ماتریسی با ابعاد $N \times k$ (تعداد واژگان $\times$ تعداد مؤلفه‌ها) حاصل می‌شود. به این ترتیب هر سطر نشان‌دهنده‌ی بردار ویژگی $k$-بعدی منحصر‌به‌فرد یک واژه در فضای ویژگی‌های پنهان است.
+
+    \subsection*{تحلیل تجربی نتایج و تفسیر معنایی خروجی:}
+    پس از اجرای کد، خروجی عددی مقایسه جفت‌کلمات به شکل زیر ثبت می‌شود:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.85\textwidth]{Output16.png}
+        \caption{نتایج محاسباتی تشابه کسینوسی و فاصله اقلیدسی جفت‌کلمات در خروجی مفسر}
+        \label{fig:q16_similarity_output}
+    \end{figure}
+
+    با بررسی مقادیر شکل \ref{fig:q16_similarity_output}، نتایج زیر به دست می‌آید:
+    \begin{itemize}
+        \item \textbf{بیشترین شباهت معنایی (\lr{director, film}):} 
+        جفت‌کلمه‌ی سینمایی \lr{\texttt{(director, film)}} بالاترین شباهت کسینوسی ($0.6785$) و کمترین فاصله اقلیدسی ($0.5950$) را به خود اختصاص داده است. این موضوع نشان می‌دهد که توزیع کاربرد این دو کلمه در متون به شدت با یکدیگر همپوشانی دارد و SVD توانسته این همبستگی معنایی قوی را در زیرفضای پنهان به خوبی کدگذاری کند.
+
+        \item \textbf{شباهت متوسط و کاربردی (\lr{mobile, technology}):} 
+        جفت \lr{\texttt{(mobile, technology)}} شباهت کسینوسی مثبت و ملایم $0.1647$ و فاصله اقلیدسی $0.9876$ دارد که همبستگی نسبی موضوعی این دو مفهوم را در حوزه فناوری اخبار تایید می‌کند.
+
+        \item \textbf{عدم ارتباط یا تضاد معنایی واژگان:} 
+        جفت‌هایی نظیر \lr{\texttt{(government, music)}} با شباهت کسینوسی بسیار پایین $0.0193$ نشان می‌دهند که این مفاهیم در بافت‌های کاملاً متفاوتی استفاده شده‌اند و بردارهای آن‌ها در فضای پنهان تقریباً بر هم عمود هستند.
+        
+        \item \textbf{نکته جالب در مورد جفت (\lr{win, won}):}
+        با اینکه دو کلمه \lr{\texttt{win}} و \lr{\texttt{won}} از یک ریشه فعلی هستند، شباهت کسینوسی بسیار پایین $0.0350$ را نشان می‌دهند. دلیل این امر عدم استفاده از ریشه‌یابی کلمات (به انگلیسی: \lr{Stemming/\allowbreak Lemmatization}) در مراحل پیش‌پردازش اولیه است که باعث شده مدل آن‌ها را به عنوان دو موجودیت متنی کاملاً مستقل و در قالب ساختارهای نحوی متفاوت تحلیل کند.
+    \end{itemize}
+
+\noindent    \textbf{سوال ۱۷ --- بررسی همبستگی مفهومی سند و واژگان در فضای پنهان در مقایسه با فضای فرکانسی}
+    
+\noindent    در این گام، هدف بررسی تجربی یک سند مشخص و تحلیل این موضوع است که چگونه کاهش بعد با روش SVD می‌تواند مفاهیم مرتبط را فراتر از شمارش ساده‌ی کلمات کشف کند. برای این منظور، بردار یک سند در فضای معنایی تصویر شده و شباهت کسینوسی آن با تک‌تک واژگان محاسبه و با فرکانس حضور واقعی کلمات در آن سند مقایسه می‌شود. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q17 — Document-Word Similarity in Latent Space
+# ============================================================
+def q17_document_word_similarity(df_train, bow_train, Uk, Sk, Vtk, doc_idx, fname):
+    doc_vec = Uk[doc_idx] * Sk
+    word_vecs = Vtk.T
+
+    sims = np.array([cosine_sim(doc_vec, word_vecs[i]) for i in range(len(vocabulary_list))])
+    counts = bow_train[doc_idx]
+    order = np.argsort(sims)[::-1]
+
+    fig, axes = plt.subplots(2, 1, figsize=(18, 9))
+    axes[0].bar(np.array(vocabulary_list)[order], sims[order], color='mediumseagreen')
+    axes[0].set_title(f'Cosine Similarity between Document #{doc_idx} and each word (latent space)')
+    axes[0].set_ylabel('Cosine Similarity')
+    axes[0].tick_params(axis='x', rotation=75)
+
+    axes[1].bar(np.array(vocabulary_list)[order], counts[order], color='indianred')
+    axes[1].set_title(f'Word counts in Document #{doc_idx} (same word order)')
+    axes[1].set_ylabel('Count')
+    axes[1].tick_params(axis='x', rotation=75)
+
+    plt.tight_layout()
+    plt.savefig(f'media/{fname}.png', dpi=130)
+    plt.close(fig)
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و منطق ریاضی:}
+
+    \paragraph{۱. بازیابی بردار سند در فضای پنهان:}
+    برای اینکه سند شماره \lr{\texttt{doc\_idx}} را در فضای معنایی تقلیل‌یافته نمایش دهیم، سطر متناظر در ماتریس $U_k$ را در مقادیر منفرد $\Sigma_k$ ضرب می‌کنیم تا اثر میزان اهمیت هر بُعد پنهان روی سند اعمال شود:
+    $$\vec{d} = \vec{u}_i \cdot \Sigma_k$$
+
+    \paragraph{۲. محاسبه تشابه و مرتب‌سازی هم‌جهت:}
+    \begin{itemize}
+        \item با استفاده از تابع \lr{\texttt{cosine\_sim}} که قبلاً پیاده‌سازی شد، زاویه بردار سند $\vec{d}$ با تک‌تک بردارهای واژگان موجود در ستون‌های ماتریس $V_k^T$ محاسبه می‌شود.
+        \item اندیس کلمات بر اساس شباهت کسینوسی به صورت نزولی مرتب می‌شود (\lr{\texttt{order}}). این کار باعث می‌شود کلماتی که بیشترین ارتباط معنایی را با جوهره‌ی سند دارند در سمت چپ نمودارها قرار بگیرند.
+        \item در نمودار دوم، تعداد تکرار واقعی همان واژه‌ها در سند (استخراج‌شده از ماتریس فرکانسی \lr{\texttt{bow\_train}}) با همان ترتیب مرتب‌سازی نمودار اول رسم می‌شود تا مقایسه تطبیقی ممکن گردد.
+    \end{itemize}
+
+    \subsection*{تحلیل تجربی خروجی و قدرت نمایه سازی معنایی نهان (LSI):}
+    با اجرای تابع روی سند شماره ۳۳۹، نمودارهای زیر تولید می‌گردند:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=1.0\textwidth]{q17_doc_similarity.png}
+        \caption{نمودار بالایی: شباهت کسینوسی واژه‌ها با سند ۳۳۹ در فضای پنهان --- نمودار پایینی: تعداد تکرار واقعی همان واژه‌ها در سند}
+        \label{fig:q17_doc_similarity}
+    \end{figure}
+\noindent
+    تحلیل موازی این دو نمودار در شکل \ref{fig:q17_doc_similarity}، قدرت اصلی روش نمایه سازی معنایی نهان (\lr{Latent Semantic Indexing}) را آشکار می‌سازد:
+    \begin{itemize}
+        \item \textbf{انطباق فرکانسی کلمات کلیدی:}
+        کلماتی مانند \lr{``market''} (۲ بار تکرار)، \lr{``chief''}، \lr{``record''}، \lr{``company''} و \lr{``home''} (هر کدام ۱ بار تکرار) در متن سند حضور داشته‌اند (نمودار قرمز). مدل SVD با موفقیت این کلمات را شناسایی کرده و بالاترین شباهت کسینوسی (بین $0.25$ تا $0.48$) را در فضای پنهان به آن‌ها اختصاص داده است (نمودار سبز).
+        
+        \item \textbf{کشف فراتر از کلمات موجود (تعمیم معنایی):}
+        نکته بسیار حائز اهمیت این است که کلماتی مانند \lr{``tax''}، \lr{``mobile''}، \lr{``match''}، \lr{``country''} و \lr{``million''} با اینکه فرکانس حضور آن‌ها در نمودار پایینی **دقیقاً صفر** است، اما در نمودار بالایی شباهت کسینوسی مثبت و قابل توجهی (نزدیک به $0.1$) با سند دارند. 
+        این پدیده به این دلیل است که سند شماره ۳۳۹ موضوعی مربوط به حوزه تجارت، شرکت‌ها و مسائل مالی داشته است. از این رو در فضای پنهان، بردارهای کلماتی مثل مالیات (\lr{tax}) یا ارزشی مانند میلیون (\lr{million}) به دلیل هم‌نشینی موضوعی همواره به بردار چنین سندی نزدیک می‌شوند؛ حتی اگر مستقیماً در متن آن سند نوشته نشده باشند.
+        
+        \item \textbf{جلوگیری از تداخل کلمات نامرتبط:}
+        کلماتی مانند \lr{``government''}، \lr{``help''} و \lr{``money''} که شباهت کسینوسی منفی شدیدی با سند دارند، نشان‌دهنده‌ی مفاهیمی هستند که کاملاً متمایز از محور اصلی این سند بوده و مدل به درستی آن‌ها را پس زده است.
+    \end{itemize}
+
+\newpage
+
+\noindent    \textbf{سوال ۱۹ --- تحلیل و تصویرسازی رفتار دسته‌ها در فضای پنهان با نقشه‌ی حرارتی (\lr{Heatmap})}
+    
+\noindent   در این گام، هدف این است که مشخص کنیم آیا فضای پنهان استخراج‌شده توسط SVD توانسته است مرزهای معنایی متمایزی بین دسته‌های مختلف خبری (مانند ورزش، سیاست، تجارت و...) ایجاد کند یا خیر. برای این کار، میانگین بردارهای اسناد متعلق به هر دسته محاسبه شده و به عنوان «امضای معنایی» آن دسته روی نقشه‌ی حرارتی ترسیم می‌شود. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q19 — Mean Latent Space Vector per Category (Heatmap)
+# ============================================================
+def q19_category_heatmap(df_train, Uk, Sk, fname):
+    doc_vecs = Uk * Sk
+    
+    categories = sorted(df_train['Label'].unique())
+
+    mean_vecs = []
+    for c in categories:
+        mask = (df_train['Label'] == c).values
+        mean_vecs.append(doc_vecs[mask].mean(axis=0))
+        
+    mean_vecs = np.array(mean_vecs)
+    print(f"Mean latent vectors per category shape: {mean_vecs.shape}")
+
+    fig, ax = plt.subplots(figsize=(14, 5))
+    sns.heatmap(mean_vecs, cmap='coolwarm', center=0,
+                yticklabels=[LABELS_MAP[c] for c in categories],
+                xticklabels=[f'C{i+1}' for i in range(mean_vecs.shape[1])],
+                ax=ax, cbar_kws={'label': 'Mean latent value'})
+                
+    ax.set_title('Mean Latent Space Vector per Category', fontsize=14)
+    ax.set_xlabel('Latent Component', fontsize=12)
+    
+    plt.tight_layout()
+    plt.savefig(f'media/{fname}.png', dpi=130)
+    plt.close(fig)
+    
+    return mean_vecs
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و منطق ریاضی:}
+
+    \paragraph{۱. تشکیل ماتریس اسناد در فضای پنهان:}\hspace{-10pt}
+    ابتدا با ضرب توزیعی سطر‌های ماتریس ویژگی‌های اسناد ($U_k$) در مقادیر منفرد متناظر آن‌ها ($\Sigma_k$)، نمایش واقعی اسناد در فضای کاهش‌یافته محاسبه می‌شود:
+    $$D_{\text{latent}} = U_k \cdot \Sigma_k$$
+
+    \paragraph{۲. محاسبه‌ی مرکز ثقل دسته‌ها (\lr{Centroid Calculation}):}\hspace{-10pt}
+    برای هر دسته خبری $c$، یک ماسک منطقی روی داده‌ها اعمال می‌شود تا اسناد متعلق به آن طبقه تفکیک شوند. سپس میانگین هندسی این بردارها روی محور ستون‌ها (\lr{\texttt{axis=0}}) محاسبه می‌گردد تا یک بردار میانگین متمایز با ابعاد $1 \times 42$ به عنوان نماینده‌ی آن دسته حاصل شود:
+    $$\vec{\mu}_c = \frac{1}{|D_c|} \sum_{d \in D_c} \vec{d}$$
+    با تجمیع این بردارها برای تمام ۵ دسته، ماتریسی با ابعاد $5 \times 42$ تحت عنوان \lr{\texttt{mean\_vecs}} ساخته می‌شود.
+
+    \paragraph{۳. رسم نقشه حرارتی با پالت رنگی دوقطبی:}\hspace{-10pt}
+    نمودار با پالت رنگی \lr{\texttt{coolwarm}} ترسیم می‌شود که مرکز آن روی عدد $0$ تنظیم شده است. مقادیر مثبت (گرم/قرمز) نشان‌دهنده همبستگی مثبت شدید دسته با آن مؤلفه پنهان و مقادیر منفی (سرد/آبی) نشان‌دهنده تضاد یا همبستگی منفی است.
+
+    \subsection*{تحلیل تجربی نقشه‌ی حرارتی و جدایی‌پذیری دسته‌ها:}\hspace{11pt}
+    پس از اجرای الگوریتم، خروجی نمودار به شکل زیر در پوشه رسانه‌ها ذخیره می‌شود:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=1.0\textwidth]{q19_category_heatmap.png}
+        \caption{نقشه‌ی حرارتی میانگین بردارهای پنهان به تفکیک ۵ دسته‌ی موضوعی اصلی}
+        \label{fig:q19_category_heatmap}
+    \end{figure}
+
+    با تحلیل دقیق شکل \ref{fig:q19_category_heatmap}، نتایج شگفت‌انگیز زیر از توانایی جداسازی مفاهیم توسط LSI به دست می‌آید:
+    \begin{itemize}
+        \item \textbf{مرزبندی قوی دسته سیاست (\lr{Politics}) و فناوری (\lr{Technology}):} 
+        مؤلفه اول پنهان ($C_1$) رفتار کاملاً متضادی را نشان می‌دهد؛ این مؤلفه برای موضوعات سیاسی به شدت منفی (آبی تیره) و برای موضوعات فناوری به شدت مثبت (قرمز تیره) است. این یعنی تنها با بررسی مقدار سند در مولفه‌ی اول ($C_1$) می‌توان با دقت بالایی اخبار سیاسی را از اخبار فناوری تفکیک کرد.
+        
+        \item \textbf{امضای اختصاصی ورزش (\lr{Sport}):}
+        دسته ورزشی وابستگی شدیدی به مؤلفه دوم ($C_2$) دارد (رنگ قرمز تیره در سطر دوم). جالب اینجاست که در این مؤلفه، دسته‌های سیاست، فناوری و سرگرمی خنثی یا منفی هستند که نشان می‌دهد $C_2$ مشخصاً روی مفاهیم ورزشی متمرکز شده است.
+        
+        \item \textbf{تمایز حوزه سرگرمی (\lr{Entertainment}) و تجارت (\lr{Business}):}
+        موضوعات هنری و سرگرمی بیشترین ثبت مقدار مثبت را روی مؤلفه چهارم ($C_4$) دارند، در حالی که موضوعات تجاری امضای اختصاصی خود را روی مؤلفه ششم ($C_6$) با رنگ نارنجی ملایم و همبستگی منفی شدید روی مؤلفه سوم ($C_3$) نشان می‌دهند.
+        
+        \item \textbf{پدیده میرایی مؤلفه‌های فرعی (کاهش واریانس):}
+        اگر به ستون‌های سمت راست نمودار (از $C_{20}$ تا $C_{42}$) نگاه کنیم، رنگ غالب به سمت خاکستری بی‌اثر (نزدیک به صفر) متمایل می‌شود. این رفتار کاملاً با تئوری SVD همخوانی دارد؛ چرا که مقادیر منفرد به صورت نزولی مرتب شده‌اند و مؤلفه‌های انتهایی واریانس و اطلاعات بسیار کمتری از توزیع داده‌ها را حمل می‌کنند.
+    \end{itemize}
+
+\noindent\textbf{سوال ۲۰ --- ارزیابی تجربی مدل دسته‌بندی نزدیک‌ترین مرکز ثقل (\lr{Nearest Centroid Classifier}) در فضای پنهان}
+    
+\noindent    در گام پایانی پروژه، یک مدل دسته‌بندی معنایی بر پایه محاسبات هندسی طراحی شده است. این مدل، هر سند جدید از مجموعه‌ی تست (\lr{Test Set}) را به فضای پنهان منتقل کرده و با سنجش شباهت کسینوسی آن با مرکز ثقل (\lr{Centroid}) هر یک از دسته‌های پنج‌گانه در داده‌های آموزش، دسته‌ی پیش‌بینی‌شده را تعیین می‌کند. کد این بخش به صورت زیر است:
+
+\begin{latin}
+\begin{lstlisting}[language=Python]
+# ============================================================
+# Q20 — Multi-class Classification & Evaluation
+# ============================================================
+def cosine_sim_matrix(A, B):
+    A_norm = A / np.linalg.norm(A, axis=1, keepdims=True)
+    B_norm = B / np.linalg.norm(B, axis=1, keepdims=True)
+    return A_norm @ B_norm.T
+
+def q20_evaluate(df_train, bow_train, df_test, bow_test, scaler, Vtk):
+    X_train_scaled = scaler.transform(bow_train.astype(float))
+    doc_latent_train = X_train_scaled @ Vtk.T
+
+    categories = sorted(df_train['Label'].unique())
+    centroids = np.array([
+        doc_latent_train[(df_train['Label'] == c).values].mean(axis=0)
+        for c in categories
+    ])
+
+    X_test_scaled = scaler.transform(bow_test.astype(float))
+    doc_latent_test = X_test_scaled @ Vtk.T
+
+    sims = cosine_sim_matrix(doc_latent_test, centroids)
+    preds = np.array(categories)[np.argmax(sims, axis=1)]
+    true = df_test['Label'].values
+
+    acc_overall = (preds == true).mean()
+    print(f"Overall accuracy: {acc_overall:.4f}  (n={len(true)})")
+    for c in categories:
+        mask = true == c
+        if mask.sum() > 0:
+            acc_c = (preds[mask] == true[mask]).mean()
+            print(f"  {LABELS_MAP[c]:<15} n={mask.sum():<5} acc={acc_c:.4f}")
+        else:
+            print(f"  {LABELS_MAP[c]:<15} n=0 (not present in this test split)")
+    return acc_overall
+\end{lstlisting}
+\end{latin}
+
+    \subsection*{توضیح عملکرد متدها و منطق محاسباتی مدل:}
+
+    \paragraph{۱. ضرب ماتریسی بهینه‌ی تشابه کسینوسی (\lr{\texttt{cosine\_sim\_matrix}}):}\hspace{-10pt}
+    برای جلوگیری از به‌کارگیری حلقه‌های تکرار کند پایتون، ابتدا سطرهای ماتریس‌های $A$ و $B$ با تقسیم بر نرم اقلیدسی‌شان پیش‌نرمال‌سازی می‌شوند. ضرب ماتریسی حاصل‌ضرب این دو ماتریس نرمال‌شده (\lr{\texttt{A\_norm @ B\_norm.T}})، به طور هم‌زمان تشابه کسینوسی تمام اسناد تست را با تمام مراکز ثقل محاسبه می‌کند.
+
+    \paragraph{۲. انتقال داده‌های تست به فضای کاهش‌یافته:}\hspace{-10pt}
+    با مجهز بودن به ماتریس راست مفرد $V_k^T$ که از داده‌های آموزش استخراج شده است، ابتدا فرکانس اسناد تست با میانگین و انحراف معیار داده‌های آموزش استانداردسازی (\lr{\texttt{scaler.transform}}) شده و سپس با نگاشت خطی زیر به فضای ۴۲ بعدی منتقل می‌شوند:
+    $$D_{\text{test\_latent}} = X_{\text{test\_scaled}} \cdot V_k^T$$
+
+    \paragraph{۳. قانون تصمیم‌گیری مرکز ثقل:}\hspace{-10pt}
+    هر سند تست به دسته‌ای تخصیص می‌یابد که بیشترین شباهت کسینوسی (زاویه نزدیک‌تر به مرکز ثقل در زیرفضای پنهان) را با آن داشته باشد:
+    $$\hat{y} = \arg\max_{c \in \{1, \dots, 5\}} \text{CosineSimilarity}(\vec{d}_{\text{test}}, \vec{\mu}_c)$$
+
+    \subsection*{تحلیل تجربی نتایج دسته‌بندی روی مجموعه داده تست:}
+    پس از اجرای نهایی ارزیابی روی ۲۲۵ سند تست، نتایج زیر حاصل شده است:
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{Output20.png}
+        \caption{دقت کلی و تفکیک‌شده‌ی مدل دسته‌بندی نزدیک‌ترین مرکز ثقل در فضای پنهان SVD}
+        \label{fig:q20_evaluation_output}
+    \end{figure}
+
+    با تحلیل خروجی ثبت‌شده در شکل \ref{fig:q20_evaluation_output}، کارآمدی هندسی مدل را بررسی می‌کنیم:
+    \begin{itemize}
+        \item \textbf{دقت کلی قابل قبول (\lr{Overall Accuracy}):}
+        مدل دسته‌بندی بسیار ساده و بدون پارامتر ما موفق شده است به دقت کل \textbf{\%۷۶.۰۰} روی کل داده‌های تست ($n=225$) دست یابد. این موضوع نشان می‌دهد تقلیل ابعاد به کمک SVD، واریانس‌های مزاحم و نویزهای متنی را حذف کرده و ساختار متمایز هندسی کلمات و اسناد را به خوبی حفظ کرده است.
+
+        \item \textbf{عملکرد درخشان در حوزه ورزش (\lr{Sport}):}
+        دسته ورزشی با داشتن ۵۳ سند تست به دقت بی‌نظیر \textbf{\%۹۲.۴۵} رسیده است. با تطابق این یافته با نتایج سوال قبل (نقشه حرارتی)، متوجه می‌شویم اسناد ورزشی رفتار به شدت متمرکزی روی مؤلفه دوم ($C_2$) دارند و مرکز ثقل آن‌ها به شدت در فضای پنهان منزوی و متمایز از سایر دسته‌هاست که طبقه‌بندی آن را تسهیل می‌کند.
+
+        \item \textbf{چالش‌های دسته‌بندی در سایر حوزه‌ها:}
+        کمترین میزان دقت مربوط به دسته‌‌ی فناوری (\lr{Technology}) با مقدار \textbf{\%۶۸.۴۲} و سرگرمی (\lr{Entertainment}) با مقدار \textbf{\%۶۹.۴۴} است. این افت نسبی به علت هم‌پوشانی لغوی برخی مستندات تفریحی و بازی‌های آنلاین با تکنولوژی دیجیتال است که در ابعاد پنهان مرزهای نزدیک‌تری به یکدیگر دارند. با این حال، دستیابی به دقت نزدیک به \%۷۰ با استفاده از یک مدل پایه مبتنی بر مرکز ثقل، نشان‌دهنده‌ی کارایی بالای ریاضیات جبر خطی در مدیریت معنایی داده‌های متنی است.
+    \end{itemize}
+
 \end{document}
