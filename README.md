@@ -1,75 +1,185 @@
-<div dir="rtl">
+# Latent Semantic Indexing (LSI) using Singular Value Decomposition
 
-# نقشه راه پروژه دوم جبر خطی — Latent Semantic Indexing (LSI)
+## Overview
 
-## ساختار کلی پروژه
+This project implements **Latent Semantic Indexing (LSI)** using **Singular Value Decomposition (SVD)** for document analysis and dimensionality reduction. The objective is to transform a high-dimensional **Bag-of-Words (BoW)** representation into a lower-dimensional latent semantic space, enabling more meaningful document and word representations.
 
-پروژه از **دو بخش اصلی** تشکیل شده:
-
-1. **سوالات مفهومی** (سوال ۱ تا ۶) — تئوری، نیاز به جست‌وجو و نوشتن توضیح
-2. **پیاده‌سازی** (سوال ۷ تا ۲۰) — کدنویسی روی دیتاست اخبار (<span dir="ltr">Python</span> یا <span dir="ltr">MATLAB</span>)
+The project combines theoretical concepts with practical implementation, covering text preprocessing, feature extraction, dimensionality reduction, semantic analysis, similarity measurement, and document classification.
 
 ---
 
-## بخش ۱: سوالات مفهومی (تئوری)
+## Features
 
-| # | موضوع | چه‌کاری باید بکنی |
-|---|-------|-------------------|
-| ۱ | <span dir="ltr">TF-IDF</span> | تعریف <span dir="ltr">TF</span> و <span dir="ltr">IDF</span>، و توضیح اینکه چرا استفاده از هرکدام به‌تنهایی می‌تواند گمراه‌کننده باشد. |
-| ۲ | <span dir="ltr">Elbow Point</span> | توضیح روش تعیین آستانه مقادیر تکین با استفاده از نمودار نقطه زانویی. |
-| ۳ | خطای بازسازی | ارائه فرمول محاسبه <span dir="ltr">Reconstruction Error</span> در <span dir="ltr">Truncated SVD</span>. |
-| ۴ | معیارهای شباهت | معرفی <span dir="ltr">Cosine Similarity</span> و <span dir="ltr">Euclidean Distance</span> به همراه بازه مقادیر آن‌ها. |
-| ۵ | استانداردسازی | توضیح اینکه چرا و چگونه باید داده‌ها را پیش از اجرای <span dir="ltr">SVD</span> استانداردسازی کرد. |
-| ۶ | <span dir="ltr">Randomized SVD</span> | ارائه شبه‌کد و توضیح کاربرد آن برای ماتریس‌های بزرگ. |
-
-> **نکته:** پیشنهاد می‌شود این سوالات را همزمان با مراحل پیاده‌سازی یا پیش از آن مطالعه کنید؛ زیرا سوالات **۲، ۳، ۵ و ۶** مستقیماً با بخش پیاده‌سازی مرتبط هستند.
-
----
-
-## بخش ۲: پیاده‌سازی — گام به گام
-
-### مرحله A: آماده‌سازی داده (سوال ۷ تا ۱۰)
-
-- **۷.** خواندن فایل <span dir="ltr">`dataset.csv`</span> و انجام پیش‌پردازش متن (حذف علائم نگارشی و تبدیل تمامی حروف به حروف کوچک).
-- **۸.** استخراج ۳۰ کلمه پرتکرار، رسم نمودار ستونی و بررسی میزان مفید بودن این کلمات برای درک موضوع داده‌ها.
-- **۹.** رسم <span dir="ltr">Word Cloud</span> برای کل مجموعه داده و ارائه توضیحی درباره نحوه تفسیر آن و معیار انتخاب کلمات.
-- **۱۰.** ساخت ماتریس <span dir="ltr">Bag of Words (BoW)</span> با استفاده از کلمات موجود در فایل <span dir="ltr">`words.csv`</span> و گزارش ابعاد ماتریس.
-  - ⚠️ در این مرحله باید **۲۰۰۰ ردیف اول** را به‌عنوان داده‌های آموزش انتخاب کرده و **۲۲۵ ردیف باقی‌مانده** را به‌عنوان <span dir="ltr">Test Set</span> جدا کنید. از این مرحله تا پایان پروژه، تنها روی داده‌های آموزشی (۲۰۰۰ ردیف) کار خواهید کرد.
-
-### مرحله B: اجرای SVD و کاهش مرتبه (سوال ۱۱ تا ۱۴)
-
-- **۱۱.** استانداردسازی بردارهای <span dir="ltr">BoW</span>، اجرای <span dir="ltr">SVD</span> کامل و گزارش ابعاد ماتریس‌های <span dir="ltr">U</span>، <span dir="ltr">Σ</span> و <span dir="ltr">V</span>.
-- **۱۲.** رسم نمودار مقادیر تکین، تعیین نقطه <span dir="ltr">Elbow</span>، اجرای <span dir="ltr">Truncated SVD</span> و محاسبه خطای بازسازی.
-- **۱۳.** پیاده‌سازی تابع <span dir="ltr">Randomized SVD</span> از ابتدا بر اساس شبه‌کد ارائه‌شده در سوال ۶.
-- **۱۴.** اجرای <span dir="ltr">Randomized SVD</span> با رتبه انتخابی، مقایسه خطای آن با <span dir="ltr">Truncated SVD</span> و بررسی اینکه کدام روش برای مجموعه‌داده‌های بزرگ مناسب‌تر است.
-
-### مرحله C: تفسیر فضای نهان (سوال ۱۵ تا ۱۸)
-
-- **۱۵.** برای هر مولفه حاصل از <span dir="ltr">Truncated SVD</span>، پنج کلمه با بیشترین وزن را استخراج کرده و مفهوم نهفته هر مولفه را تفسیر کنید.
-- **۱۶.** محاسبه <span dir="ltr">Cosine Similarity</span> و <span dir="ltr">Euclidean Distance</span> برای شش جفت کلمه داده‌شده و تحلیل نتایج.
-- **۱۷.** برای متنی که سه رقم آخر شماره دانشجویی شما با شماره آن متن یکسان است، شباهت کسینوسی با کلمات داده‌شده را محاسبه کرده، نمودار ستونی رسم کنید و نتایج را با نمودار فراوانی کلمات مقایسه نمایید.
-- **۱۸.** توضیح دهید که چرا جست‌وجو در فضای نهان نسبت به فضای <span dir="ltr">BoW</span> عملکرد بهتری دارد (با استفاده از مثال <span dir="ltr">technology / mobile / digital</span>) و مزیت آن از نظر هزینه محاسباتی را بیان کنید.
-
-### مرحله D: دسته‌بندی نهایی (سوال ۱۹ تا ۲۰)
-
-- **۱۹.** میانگین بردار فضای نهان را برای هر یک از پنج دسته (۰ تا ۴) محاسبه کرده، آن‌ها را به‌صورت <span dir="ltr">Heat Map</span> نمایش دهید و یک روش مناسب برای برچسب‌گذاری متون بر اساس فضای نهان پیشنهاد کنید.
-- **۲۰.** روش پیشنهادی را پیاده‌سازی کرده و دقت (<span dir="ltr">Accuracy</span>) آن را روی **۲۲۵ داده آزمون** ارزیابی کنید. همچنین دقت هر دسته را به‌صورت جداگانه گزارش دهید.
+- Text preprocessing
+  - Lowercase conversion
+  - Punctuation removal
+- Exploratory text analysis
+  - Top 30 most frequent words
+  - Word Cloud visualization
+- Bag-of-Words (BoW) construction
+- TF-IDF concept analysis
+- Full Singular Value Decomposition (SVD)
+- Truncated SVD
+- Randomized SVD implementation from scratch
+- Reconstruction error analysis
+- Elbow method for selecting latent dimensions
+- Semantic interpretation of latent components
+- Word similarity analysis
+  - Cosine Similarity
+  - Euclidean Distance
+- Latent-space document representation
+- Heatmap visualization of document categories
+- Document classification
+- Model evaluation on a held-out test set
 
 ---
 
-## ترتیب پیشنهادی برای شروع کار
+## Project Workflow
 
-1. ابتدا سوالات مفهومی **۱** و **۴** را مطالعه کنید؛ این مباحث پایه‌ای‌تر هستند و درک بهتری از ادامه پروژه به شما می‌دهند.
-2. دیتاست را بارگذاری کرده و مرحله پیش‌پردازش متن را انجام دهید (سوال ۷).
-3. تحلیل‌های اکتشافی (سوالات ۸ و ۹) را انجام دهید؛ این بخش‌ها سریع، بصری و برای آشنایی با داده‌ها بسیار مفید هستند.
-4. ماتریس **Bag of Words (BoW)** را ایجاد کرده و داده‌های آموزش و آزمون را مطابق سوال ۱۰ از یکدیگر جدا کنید.
-5. سپس سوالات مفهومی **۲، ۳ و ۵** را مطالعه کنید، زیرا مستقیماً برای انجام سوالات **۱۱** و **۱۲** موردنیاز هستند.
-6. **SVD** کامل و سپس **Truncated SVD** را پیاده‌سازی کنید (سوالات ۱۱ و ۱۲).
-7. سوال مفهومی **۶** را مطالعه کرده و سپس **Randomized SVD** را پیاده‌سازی کنید (سوالات ۱۳ و ۱۴).
-8. به سراغ تفسیر مولفه‌ها و بررسی شباهت کلمات بروید (سوالات ۱۵ تا ۱۸).
-9. در ادامه، مرحله دسته‌بندی نهایی و ارزیابی دقت مدل را انجام دهید (سوالات ۱۹ و ۲۰).
-10. در پایان، گزارش نهایی پروژه را به‌صورت کامل تهیه کنید. مطابق صورت پروژه، **گزارش مهم‌ترین معیار ارزیابی** است؛ بنابراین نمودارها، تحلیل‌ها و توضیحات را با دقت و به‌صورت کامل ارائه دهید.
+1. Text preprocessing
+2. Exploratory data analysis
+3. Bag-of-Words generation
+4. Train/Test split
+5. Feature standardization
+6. Full SVD computation
+7. Truncated SVD
+8. Randomized SVD
+9. Latent semantic interpretation
+10. Word similarity analysis
+11. Document classification
+12. Model evaluation
 
 ---
 
-</div>
+## Technologies Used
+
+- Python
+- NumPy
+- Pandas
+- Scikit-learn
+- Matplotlib
+- WordCloud
+
+---
+
+## Dataset
+
+The project uses a news dataset containing **2,225 documents**.
+
+- **Training Set:** 2,000 documents
+- **Test Set:** 225 documents
+
+A predefined vocabulary (`words.csv`) is used to construct the Bag-of-Words matrix.
+
+---
+
+## Repository Structure
+
+```text
+.
+├── dataset.csv
+├── words.csv
+├── notebooks/
+│   └── LSI_Project.ipynb
+├── src/
+│   ├── preprocessing.py
+│   ├── svd.py
+│   ├── randomized_svd.py
+│   ├── similarity.py
+│   └── classifier.py
+├── figures/
+│   ├── wordcloud.png
+│   ├── elbow_plot.png
+│   ├── heatmap.png
+│   └── similarity_results.png
+├── report/
+│   └── Project_Report.pdf
+├── requirements.txt
+├── LICENSE
+└── README.md
+```
+
+---
+
+## Concepts Covered
+
+- Latent Semantic Indexing (LSI)
+- Singular Value Decomposition (SVD)
+- Truncated SVD
+- Randomized SVD
+- TF-IDF
+- Bag of Words (BoW)
+- Cosine Similarity
+- Euclidean Distance
+- Reconstruction Error
+- Elbow Method
+- Dimensionality Reduction
+- Information Retrieval
+- Natural Language Processing (NLP)
+
+---
+
+## Results
+
+This project demonstrates how dimensionality reduction enables a more meaningful semantic representation of documents compared to the original Bag-of-Words space while reducing computational complexity.
+
+It also compares the performance of **Truncated SVD** and **Randomized SVD** in terms of reconstruction error and scalability, highlighting the advantages of randomized algorithms for large-scale text datasets.
+
+---
+
+## Learning Outcomes
+
+By completing this project, the following concepts and techniques were explored:
+
+- Mathematical foundations of Singular Value Decomposition
+- Latent semantic representation of documents
+- Large-scale matrix factorization
+- Text preprocessing and feature engineering
+- Information retrieval techniques
+- Similarity measurement in vector spaces
+- Dimensionality reduction
+- Document classification in latent semantic space
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/LSI-Document-Analysis.git
+cd LSI-Document-Analysis
+```
+
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Usage
+
+Run the notebook:
+
+```bash
+jupyter notebook notebooks/LSI_Project.ipynb
+```
+
+Or execute the Python scripts inside the `src/` directory.
+
+---
+
+## Future Improvements
+
+- Support TF-IDF feature extraction in addition to Bag-of-Words.
+- Integrate modern embedding methods (Word2Vec, FastText, BERT) for comparison.
+- Develop an interactive visualization dashboard.
+- Evaluate additional classification algorithms.
+
+---
+
+## Author
+
+Developed as a **Linear Algebra** course project focusing on **Latent Semantic Indexing (LSI)**, **Singular Value Decomposition (SVD)**, and **Natural Language Processing (NLP)**.
