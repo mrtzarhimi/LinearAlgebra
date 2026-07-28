@@ -73,33 +73,6 @@ A predefined vocabulary (`words.csv`) is used to construct the Bag-of-Words matr
 
 ---
 
-## Repository Structure
-
-```text
-.
-├── dataset.csv
-├── words.csv
-├── notebooks/
-│   └── LSI_Project.ipynb
-├── src/
-│   ├── preprocessing.py
-│   ├── svd.py
-│   ├── randomized_svd.py
-│   ├── similarity.py
-│   └── classifier.py
-├── figures/
-│   ├── wordcloud.png
-│   ├── elbow_plot.png
-│   ├── heatmap.png
-│   └── similarity_results.png
-├── report/
-│   └── Project_Report.pdf
-├── requirements.txt
-├── LICENSE
-└── README.md
-```
-
----
 
 ## Concepts Covered
 
